@@ -1,4 +1,4 @@
-package org.example.test2;
+package org.example.test2.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
