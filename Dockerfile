@@ -1,4 +1,4 @@
-# Base image for the build stage
+# Build stage
 FROM maven:3.8.5-openjdk-17 AS build
 
 # Set the working directory inside the container
@@ -6,15 +6,10 @@ WORKDIR /app
 
 # Copy the pom.xml and download dependencies
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copy the entire project
-COPY . .
-
-# Build the project
+COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Base image for the runtime stage
+# Runtime stage
 FROM openjdk:17-jdk-slim
 
 # Set the working directory inside the container
