@@ -19,4 +19,9 @@ public class TestController {
         String translation = translationService.translate();
         return ResponseEntity.ok(translation);
     }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello(){
+        return ResponseEntity.ok("hello");
+    }
 }
