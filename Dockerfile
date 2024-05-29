@@ -1,15 +1,30 @@
-FROM ubuntu:latest AS build
+# Base image for the build stage
+FROM maven:3.8.5-openjdk-17 AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the pom.xml and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy the entire project
 COPY . .
 
-RUN ./gradlew bootJar --no-daemon
+# Build the project
+RUN mvn clean package -DskipTests
 
+# Base image for the runtime stage
 FROM openjdk:17-jdk-slim
 
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the jar file from the build stage
+COPY --from=build /app/target/test2-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose the port the application runs on
 EXPOSE 8080
 
-COPY --from=build /target/test2-0.0.1-SNAPSHOT.jar app.jar
-
+# Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
