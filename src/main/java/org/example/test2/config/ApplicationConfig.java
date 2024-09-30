@@ -19,17 +19,17 @@ public class ApplicationConfig {
     String propertiesBasename;
     @Bean
     public LocaleResolver localeResolver() {
-        AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
-        acceptHeaderLocaleResolver.setDefaultLocale(new Locale("en"));
-        return acceptHeaderLocaleResolver;
+        AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale(defaultLocale));
+        return localeResolver;
     }
 
     @Bean
     public ResourceBundleMessageSource messageSource() {
-        ResourceBundleMessageSource rs = new ResourceBundleMessageSource();
-        rs.setBasename("messages");
-        rs.setDefaultEncoding("UTF-8");
-        rs.setUseCodeAsDefaultMessage(true);
-        return rs;
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename(propertiesBasename);
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        return messageSource;
     }
 }
