@@ -2,15 +2,13 @@ package org.example.test2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.test2.entity.Product;
-import org.example.test2.entity.ProductPriceCacheKey;
 import org.example.test2.repository.ProductRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,9 +36,8 @@ public class ProductService {
     }
 
     public Product getProductPrice(Long productId, Long textureId, Long workshopId) {
-        ProductPriceCacheKey cacheKey = new ProductPriceCacheKey(productId, textureId, workshopId);
 
-        String str = productId+":"+textureId+":"+":"+(workshopId==null);
+        String str = productId+":"+textureId+":"+workshopId;
 
         return priceCashService.getProductPriceFromCache(str);
     }
